@@ -16,6 +16,14 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # Permite que o Traefik acesse o Docker
 
+    certificatesresolvers:
+      letsencrypt:
+        acme:
+          email: contato@memberarea.com.br  # Substitua pelo seu e-mail
+          storage: acme.json 
+          httpchallenge:
+            entrypoint: web
+
   db:
     image: postgres:17
     environment:
