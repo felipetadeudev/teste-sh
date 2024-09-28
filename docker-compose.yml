@@ -31,11 +31,13 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.web.rule=Host(`seu_dominio.com`)" # Substitua pelo seu domínio
       - "traefik.http.routers.web.entrypoints=web" 
-      - "traefik.http.services.web.loadbalancer.server.port=3000" # Porta do seu aplicativo
+      - "traefik.http.services.web.loadbalancer.server.port=3000"
     environment:
       SQLALCHEMY_DATABASE_URI: postgresql://postgres:Extreme123@db:5432/wldigital
     depends_on:
       - db
+    networks:
+      - default 
 
 volumes:
   postgres_data:
@@ -43,4 +45,5 @@ volumes:
 networks:
   default:
     external:
-      name: traefik_proxy # Cria uma rede para o Traefik e os outros serviços se comunicarem
+      name: traefik_proxy
+      external: true
