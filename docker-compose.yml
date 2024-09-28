@@ -2,13 +2,15 @@ version: '3.8'
 
 services:
   traefik:
-    image: traefik:v3.0 # Ou a versão mais recente
+    image: traefik:v3.0 
     command:
       - "--api.insecure=true" 
       - "--providers.docker=true" 
       - "--providers.docker.exposedbydefault=false" 
-      - "--entrypoints.web.address=:80" 
+      - "--entrypoints.web.address=:80"   
+ 
       - "--entrypoints.websecure.address=:443"   
+   
 
       - "--certificatesresolvers.letsencrypt.acme.email=seu_email@example.com"   
  
@@ -19,10 +21,11 @@ services:
 
     ports:
       - "80:80"
-      - "443:443" # Se for usar HTTPS
+      - "443:443" 
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # Permite que o Traefik acesse o Docker
-      - ./letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock   
+ 
+      - ./letsencrypt:/letsencrypt 
 
     certificatesresolvers:
       letsencrypt:
