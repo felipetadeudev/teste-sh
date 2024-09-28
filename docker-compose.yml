@@ -2,19 +2,27 @@ version: '3.8'
 
 services:
   traefik:
-    image: traefik:v2.9 # Ou a versão mais recente
+    image: traefik:v3.0 # Ou a versão mais recente
     command:
-      - "--api.insecure=true" # Habilita a API para fins de desenvolvimento (não recomendado em produção)
-      - "--providers.docker=true" # Habilita o provedor Docker
-      - "--providers.docker.exposedbydefault=false" # Exige rótulos para expor serviços
-      - "--entrypoints.web.address=:80" # Define a porta HTTP
-      - "--entrypoints.websecure.address=:443" # Define a porta HTTPS (se for usar HTTPS)
+      - "--api.insecure=true" 
+      - "--providers.docker=true" 
+      - "--providers.docker.exposedbydefault=false" 
+      - "--entrypoints.web.address=:80" 
+      - "--entrypoints.websecure.address=:443"   
+
+      - "--certificatesresolvers.letsencrypt.acme.email=contato@memberarea.com.br"   
+ 
+      - "--certificatesresolvers.letsencrypt.acme.storage=acme.json" 
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"   
+ 
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
 
     ports:
       - "80:80"
       - "443:443" # Se for usar HTTPS
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # Permite que o Traefik acesse o Docker
+      - ./letsencrypt:/letsencrypt
 
     certificatesresolvers:
       letsencrypt:
@@ -47,12 +55,13 @@ services:
     depends_on:
       - db
     networks:
-      - public 
+      - default 
 
 volumes:
   postgres_data:
+  letsencrypt:
 
 networks:
-  public:
+  default:
     name: traefik_proxy
     external: true
