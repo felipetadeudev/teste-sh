@@ -37,8 +37,10 @@ services:
     build: .
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.web.rule=Host(`seu_dominio.com`)" # Substitua pelo seu domínio
-      - "traefik.http.routers.web.entrypoints=web" 
+      - "traefik.http.routers.web.rule=Host(`seu_dominio.com`)" 
+      - "traefik.http.routers.web.entrypoints=web,websecure"  # Adicione websecure
+      - "traefik.http.routers.web.tls=true"  # Habilita HTTPS
+      - "traefik.http.routers.web.tls.certresolver=letsencrypt" 
       - "traefik.http.services.web.loadbalancer.server.port=3000"
     environment:
       SQLALCHEMY_DATABASE_URI: postgresql://postgres:Extreme123@db:5432/wldigital
