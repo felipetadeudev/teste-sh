@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v2.9 # Ou a versão mais recente
+    command:
+      - "--api.insecure=true" # Habilita a API para fins de desenvolvimento (não recomendado em produção)
+      - "--providers.docker=true" # Habilita o provedor Docker
+      - "--providers.docker.exposedbydefault=false" # Exige rótulos para expor serviços
+      - "--entrypoints.web.address=:80" # Define a porta HTTP
+      - "--entrypoints.websecure.address=:443" # Define a porta HTTPS (se for usar HTTPS)
+
+    ports:
+      - "80:80"
+      - "443:443" # Se for usar HTTPS
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # Permite que o Traefik acesse o Docker
+
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: wldigital
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Extreme123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.rule=Host(`seu_dominio.com`)" # Substitua pelo seu domínio
+      - "traefik.http.routers.web.entrypoints=web" 
+      - "traefik.http.services.web.loadbalancer.server.port=3000" # Porta do seu aplicativo
+    environment:
+      SQLALCHEMY_DATABASE_URI: postgresql://postgres:Extreme123@db:5432/wldigital
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    external:
+      name: traefik_proxy # Cria uma rede para o Traefik e os outros serviços se comunicarem
