@@ -22,4 +22,4 @@ RUN chmod +x /wait-for-postgres.sh
 EXPOSE 3000
 
 # Comando para rodar o aplicativo (corrigido)
-CMD ["/wait-for-postgres.sh", "db", "&&", "python", "app.py"]
+CMD ["/bin/bash", "-c", "/wait-for-postgres.sh db && python app.py"]
