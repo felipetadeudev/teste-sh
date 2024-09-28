@@ -7,33 +7,19 @@ services:
       - "--api.insecure=true" 
       - "--providers.docker=true" 
       - "--providers.docker.exposedbydefault=false" 
-      - "--entrypoints.web.address=:80"   
- 
-      - "--entrypoints.websecure.address=:443"   
-   
-
-      - "--certificatesresolvers.letsencrypt.acme.email=seu_email@example.com"   
- 
+      - "--entrypoints.web.address=:80" 
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.email=seu_email@example.com" 
       - "--certificatesresolvers.letsencrypt.acme.storage=acme.json" 
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"   
- 
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true" 
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
 
     ports:
       - "80:80"
       - "443:443" 
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock   
- 
+      - /var/run/docker.sock:/var/run/docker.sock 
       - ./letsencrypt:/letsencrypt 
-
-    certificatesresolvers:
-      letsencrypt:
-        acme:
-          email: contato@memberarea.com.br  # Substitua pelo seu e-mail
-          storage: acme.json 
-          httpchallenge:
-            entrypoint: web
 
   db:
     image: postgres:17
@@ -49,8 +35,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web.rule=Host(`seu_dominio.com`)" 
-      - "traefik.http.routers.web.entrypoints=web,websecure"  # Adicione websecure
-      - "traefik.http.routers.web.tls=true"  # Habilita HTTPS
+      - "traefik.http.routers.web.entrypoints=web,websecure" 
+      - "traefik.http.routers.web.tls=true" 
       - "traefik.http.routers.web.tls.certresolver=letsencrypt" 
       - "traefik.http.services.web.loadbalancer.server.port=3000"
     environment:
