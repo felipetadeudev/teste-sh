@@ -12,4 +12,4 @@ until PGPASSWORD="Extreme123" psql -h "$host" -U "postgres" -c '\q'; do
 done
 
 >&2 echo "PostgreSQL is up - executing command"
-exec $cmd
+$cmd
