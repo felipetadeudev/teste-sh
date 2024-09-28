@@ -10,7 +10,7 @@ services:
       - "--entrypoints.web.address=:80" 
       - "--entrypoints.websecure.address=:443"   
 
-      - "--certificatesresolvers.letsencrypt.acme.email=contato@memberarea.com.br"   
+      - "--certificatesresolvers.letsencrypt.acme.email=seu_email@example.com"   
  
       - "--certificatesresolvers.letsencrypt.acme.storage=acme.json" 
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"   
