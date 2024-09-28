@@ -43,6 +43,6 @@ volumes:
   postgres_data:
 
 networks:
-  default:
-    external:
-      name: traefik_proxy
+  public:
+    name: traefik_proxy
+    external: true
