@@ -21,4 +21,4 @@ COPY wait-for-postgres.sh /wait-for-postgres.sh
 EXPOSE 3000
 
 # Comando para rodar o aplicativo
-CMD ["/wait-for-postgres.sh", "db", "python", "app.py"]
+CMD ["db", "python", "app.py"]
