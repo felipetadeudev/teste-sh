@@ -38,6 +38,8 @@ git clone https://github.com/felipetadeudev/teste-sh.git
 # 7. Acessar o diretório do projeto
 cd teste-sh
 
+sudo chmod +x wait-for-postgres.sh
+
 # 8. Solicitar o domínio ao usuário
 echo "Digite o domínio que você deseja usar para o seu aplicativo (ex: meuaplicativo.com): "
 read DOMINIO

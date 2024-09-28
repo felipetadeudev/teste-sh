@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
@@ -7,9 +7,11 @@ shift
 cmd="$@"
 
 until PGPASSWORD="Extreme123" psql -h "$host" -U "postgres" -c '\q'; do
-  >&2 echo "PostgreSQL is unavailable - sleeping"
+  echo "PostgreSQL is unavailable - sleeping" >&2
   sleep 1
 done
 
->&2 echo "PostgreSQL is up - executing command"
-$cmd
+echo "PostgreSQL is up - executing command" >&2
+
+# Executar o comando usando 'exec' para substituir o processo atual
+exec $cmd

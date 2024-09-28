@@ -37,12 +37,12 @@ services:
     depends_on:
       - db
     networks:
-      - default 
+      - public 
 
 volumes:
   postgres_data:
 
 networks:
-  default:
+  public:
     name: traefik_proxy
     external: true
